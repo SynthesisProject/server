@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+
+    
+    <!-- The content loader -->
+    <!-- In your contentConvertors property parent="parent-resource-converter" if present the file is created on disk -->
+    <bean id="synthesisContentLoader" class="coza.opencollab.synthesis.service.content.impl.AsyncContentLoader" init-method="init">
+        <property name="silentlyUpdateNonExistingVersions" value="true" />
+        <property name="nonExistingVersion" value="20000101010000000" />
+        <property name="scheduleManagedModules" value="${creator.content.manage.modules}" />
+        <property name="versionDateFormat" value="yyyyMMddHHmmssSSS" />
+        <property name="entryComparer">
+            <bean class="coza.opencollab.synthesis.service.util.impl.JsonMergeEntryComparer" />
+        </property>
+        <property name="contentConvertors">
+            <map>
+                <entry key="announcements" >
+                    <bean class="coza.opencollab.synthesis.service.content.moodle.impl.MoodleAnnouncementConverter" parent="parent-resource-converter" />
+                </entry>
+                <entry key="resources" >
+                    <bean class="coza.opencollab.synthesis.service.content.moodle.impl.MoodleResourceConverter" parent="parent-resource-converter"/>
+                </entry>
+                <entry key="schedule" >
+                    <bean class="coza.opencollab.synthesis.service.content.moodle.impl.MoodleCalendarConverter" parent="parent-resource-converter"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <!-- The Content Service -->
+    <bean class="coza.opencollab.synthesis.service.content.impl.DefaultContentService">
+        <property name="contentLoader" ref="synthesisContentLoader" />
+        <property name="versionComparer">
+            <bean class="coza.opencollab.synthesis.service.util.impl.NumberVersionComparer">
+                <!-- XXX update this for date yyyyMMddHHmm
+               <property name="versionPattern" value="^(19|20)[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])([01][0-9]|2[0-3])([0-5][0-9])$" />
+                -->
+                <property name="versionPattern" value="^[0-9]+$" />
+            </bean>
+        </property>
+    </bean>
+    
+    <!-- The LMS Client implementation -->
+    <bean class="coza.opencollab.synthesis.service.lms.moodle.impl.MoodleLMSClient">
+        <property name="moduleService" ref="moduleServiceImpl" />
+        <property name="toolDataConverters">
+            <map>
+                <entry key="announcements">
+                    <bean class="coza.opencollab.synthesis.service.lms.moodle.impl.MoodleAnnouncementHandler" />
+                </entry>
+                <entry key="resources" value-ref="resourceHandler" />
+                <entry key="schedule">
+                    <bean class="coza.opencollab.synthesis.service.lms.moodle.impl.MoodleCalendarHandler" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <!-- The LMS parser -->
+    <bean class="coza.opencollab.synthesis.service.lms.moodle.impl.MoodleLMSParser">
+        <property name="moduleFilter">
+            <bean class="coza.opencollab.synthesis.service.api.lms.filter.impl.AllowAllModuleFilter" />
+        </property>
+    </bean>
+    
+
+    
+    <!-- Session Manager -->
+    <bean class="coza.opencollab.synthesis.service.util.impl.CachedSessionManager">
+        <property name="sessionTimeout" value="${session.timeout}" />
+        <property name="adminUsername" value="${moodle.admin.username}" />
+        <property name="adminPassword" value="${moodle.admin.password}" />
+        <property name="loginService" ref="moodleLoginService"/>
+    </bean>
+    
+    <!-- Abstract Service -->
+    <bean id="abstractService" class="coza.opencollab.synthesis.moodle.client.impl.AbstractServiceImpl"
+          abstract="true">
+        <property name="host" value="${moodle.service.host}"/>
+        <property name="baseRestStr" value="${moodle.service.base.rest.string}"/>
+        <property name="appName" value="${moodle.service.app.name}" />
+        <property name="timeout" value="30000"/>        
+    </bean>    
+    
+    
+    <!-- The Moodle Login Service -->
+    <bean id="moodleLoginService" class="coza.opencollab.synthesis.moodle.client.impl.MoodleLoginServiceImpl"  parent="abstractService">
+    </bean>
+    
+
+    <!-- The Event Service -->
+    <bean class="coza.opencollab.synthesis.service.event.impl.LMSEventServiceImpl">
+        <property name="datePattern" value="yyyy-MM-dd HH:mm:ss" />
+    </bean>
+    
+    <!-- The Moodle Event Service -->
+    <bean class="coza.opencollab.synthesis.moodle.client.impl.EventServiceImpl">
+    </bean>
+        
+    <!-- The Moodle Module Service -->
+    <bean id="moduleServiceImpl" class="coza.opencollab.synthesis.moodle.client.impl.ModuleServiceMoodleImpl" parent="abstractService">
+    </bean>
+    
+    <!-- The Moodle Resources Service -->
+    <bean id="resourcesServiceImpl" class="coza.opencollab.synthesis.moodle.client.impl.ResourcesServiceImpl" parent="abstractService">
+        <property name="timeout" value="145000" />
+    </bean>
+    
+    <!-- The Moodle Resource handler. This will be called by multiple handlers -->
+    <bean id="resourceHandler" class="coza.opencollab.synthesis.service.lms.moodle.impl.MoodleResourceHandler" >
+        <property name="folderType" value="${moodle.resource.folder.type}" />
+        <property name="fileType" value="${moodle.resource.file.type}" />
+    </bean>
+    
+    <!-- The Moodle Announcement Service -->
+    <bean id="moodleAnnouncementsService" class="coza.opencollab.synthesis.moodle.client.impl.AnnouncementServiceImpl" parent="abstractService">
+    </bean>
+    
+    <!-- The Moodle Schedule handler.  -->
+    <bean id="scheduleHandler" class="coza.opencollab.synthesis.service.lms.moodle.impl.MoodleCalendarHandler" >
+    </bean>
+    
+    <!-- The Moodle Schedule Service -->
+    <bean id="moodleScheduleService" class="coza.opencollab.synthesis.moodle.client.impl.CalendarServiceImpl" parent="abstractService">
+        <property name="userService" ref="moodleUserService" />
+        <property name="endDateSetEndOfDay" value="true" />
+        <property name="rangeDateFormat" value="yyyyMMddHHmm" />
+        
+    </bean>
+    
+    <!-- The Moodle User Service -->
+    <bean id="moodleUserService" class="coza.opencollab.synthesis.moodle.client.impl.UserServiceImpl" parent="abstractService">
+    </bean>
+    
+</beans>

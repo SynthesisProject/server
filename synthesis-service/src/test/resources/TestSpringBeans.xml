@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="coza.opencollab.synthesis.push.dao"/>
+	<tx:annotation-driven proxy-target-class="true" transaction-manager="jpaTransactionManager" />
+
+	<bean id="appProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="singleton" value="true" />
+		<property name="ignoreResourceNotFound" value="false" />
+		<property name="locations">
+			<list>
+				<value>classpath:test.config.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<context:property-placeholder
+			order="1"
+			properties-ref="appProperties"
+			ignore-unresolvable="false"
+			system-properties-mode="OVERRIDE"/>
+
+
+	<tx:annotation-driven proxy-target-class="true" transaction-manager="jpaTransactionManager" />
+
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${shared.datasource.driver.name}" />
+		<property name="url" value="${shared.datasource.url}" />
+		<property name="username" value="${shared.datasource.username}" />
+		<property name="password" value="${shared.datasource.password}" />
+	</bean>
+
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="persistenceUnitName" value="synthesisPU" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="${shared.entitymanager.showSql}" />
+				<property name="generateDdl" value="${shared.entitymanager.generateDdl}" />
+				<property name="database" value="${shared.entitymanager.database}" />
+				<property name="databasePlatform" value="${shared.entitymanager.databasePlatform}" />
+			</bean>
+		</property>
+		<property name="jpaPropertyMap">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">${shared.hibernate.hbm2ddl.auto}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+</beans>

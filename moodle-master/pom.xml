@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+        <parent>
+            <groupId>coza.opencollab.synthesis</groupId>
+            <artifactId>master</artifactId>
+            <version>1.0.5-SNAPSHOT</version>
+	</parent>
+	<artifactId>moodle-master</artifactId>
+	<packaging>pom</packaging>
+	
+	<name>Moodle Master</name>
+	<description>The Moodle master pom</description>
+
+	<modules>
+		<module>moodle-client</module>
+		<module>moodle-impl</module>
+	</modules>
+
+	<properties>
+		<jackson-annotations.version>2.4.0</jackson-annotations.version>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<!-- Internal dependencies -->
+			<dependency>
+				<groupId>coza.opencollab.synthesis</groupId>
+				<artifactId>moodle-client</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- Synthesis dependencies -->
+			<dependency>
+				<groupId>coza.opencollab.synthesis</groupId>
+				<artifactId>synthesis-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>coza.opencollab.synthesis</groupId>
+				<artifactId>synthesis-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-core-asl</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson-annotations.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>2.7</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>1.7.2</version>
+			</dependency>
+                        <dependency>
+                            <groupId>com.google.code.gson</groupId>
+                            <artifactId>gson</artifactId>
+                            <version>2.3</version>
+                        </dependency> 
+                        <dependency>
+                            <groupId>commons-lang</groupId>
+                            <artifactId>commons-lang</artifactId>
+                            <version>2.6</version>
+                        </dependency>                                               
+		</dependencies>
+	</dependencyManagement>
+
+</project>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+						http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+						http://www.springframework.org/schema/task
+						http://www.springframework.org/schema/task/spring-task-3.2.xsd
+						http://www.springframework.org/schema/util 
+						http://www.springframework.org/schema/util/spring-util-3.2.xsd
+						http://cxf.apache.org/jaxrs
+						http://cxf.apache.org/schemas/jaxrs.xsd">
+
+	<task:annotation-driven />
+
+    <bean id="androidQueue" class="coza.opencollab.synthesis.push.service.PushQueue"/>
+    <bean id="pushPreferenceDeleteJob" class="coza.opencollab.synthesis.push.service.RemovedPreferencesJob"/>
+    
+     <task:scheduled-tasks>
+        <task:scheduled ref="androidQueue" method="checkPushes" fixed-delay="${push.sendTimer}" />
+        <task:scheduled  ref="pushPreferenceDeleteJob" method="removeUnlinkedPreferences" cron="${push.preferenceDeleteJob.cron}" />
+    </task:scheduled-tasks>
+    
+    <!-- Connection pools to work with APNS -->
+	<bean name="iOSConnectionFactory" class="coza.opencollab.synthesis.push.factory.iOSConnectionFactory" />
+	<bean name="iOSConnectionPool" class="org.apache.commons.pool.impl.GenericObjectPool" depends-on="iOSConnectionFactory">
+		<constructor-arg ref="iOSConnectionFactory" />
+		<property name="whenExhaustedAction" value="1" />
+		<property name="maxActive" value="${push.apple.pool.maxConnections}" />
+		<property name="testOnBorrow" value="true" />
+		<property name="lifo" value="false" />
+		<property name="timeBetweenEvictionRunsMillis" value="${push.apple.pool.timeBetweenEvictionRunsMillis}" />
+		<property name="minEvictableIdleTimeMillis" value="${push.apple.pool.minEvictableIdleTimeMillis}" />
+	</bean>
+
+	<!-- Sender service implementations -->
+	<bean id="androidSendService" class="coza.opencollab.synthesis.push.service.send.AndroidSendService" />
+	<bean id="iOSSendService" class="coza.opencollab.synthesis.push.service.send.iOSSendService"/>
+	
+	
+	<util:map id="pushSenders" map-class="java.util.HashMap">
+        <entry key="Android" value-ref="androidSendService"/>
+        <entry key="iOS" value-ref="iOSSendService"/>
+    </util:map>
+
+	<bean id="toolChangePushJob" class="coza.opencollab.synthesis.push.service.ToolChangesPushJob" scope="prototype">
+	</bean>
+
+</beans>

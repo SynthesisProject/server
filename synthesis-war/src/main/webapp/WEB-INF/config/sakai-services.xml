@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+        <!-- The content loader -->
+    <bean id="synthesisContentLoader" class="coza.opencollab.synthesis.service.content.impl.AsyncContentLoader" init-method="init">
+        <property name="silentlyUpdateNonExistingVersions" value="true" />
+        <property name="nonExistingVersion" value="20000101010000000" />
+        <property name="scheduleManagedModules" value="${creator.content.manage.modules}" />
+        <property name="versionDateFormat" value="yyyyMMddHHmmssSSS" />
+        <property name="entryComparer">
+            <bean class="coza.opencollab.synthesis.service.util.impl.JsonMergeEntryComparer" />
+        </property>
+        <property name="contentConvertors">
+            <map>
+                <entry key="announcements" >
+                    <bean class="coza.opencollab.synthesis.service.content.sakai.impl.AnnouncementConverter" parent="parent-resource-converter"/>
+                </entry>
+                <entry key="schedule" >
+                    <bean class="coza.opencollab.synthesis.service.content.sakai.impl.ScheduleConverter" parent="parent-resource-converter"/>
+                </entry>
+                <entry key="resources" >
+                    <bean class="coza.opencollab.synthesis.service.content.sakai.impl.ResourceConverter" parent="parent-resource-converter"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+        <!-- The Content Service -->
+    <bean class="coza.opencollab.synthesis.service.content.impl.DefaultContentService">
+        <property name="contentLoader" ref="synthesisContentLoader" />
+        <property name="versionComparer">
+            <bean class="coza.opencollab.synthesis.service.util.impl.NumberVersionComparer">
+                <!-- XXX update this for date yyyyMMddHHmm
+               <property name="versionPattern" value="^(19|20)[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])([01][0-9]|2[0-3])([0-5][0-9])$" />
+                -->
+                <property name="versionPattern" value="^[0-9]+$" />
+            </bean>
+        </property>
+    </bean>
+    
+    <!-- The LMS Client implementation -->
+    <bean id="sakaiLMSClient" class="coza.opencollab.synthesis.service.lms.sakai.impl.SakaiLMSClient">
+        <property name="moduleService" ref="moduleServiceImpl" />
+        <property name="toolDataConverters">
+            <map>
+                <entry key="announcements">
+                    <bean class="coza.opencollab.synthesis.service.lms.sakai.impl.SakaiAnnouncementHandler" />
+                </entry>
+                <entry key="resources" value-ref="resourceHandler" />
+                <entry key="schedule">
+                    <bean class="coza.opencollab.synthesis.service.lms.sakai.impl.SakaiScheduleHandler" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <!-- The LMS parser -->
+    <bean class="coza.opencollab.synthesis.service.lms.sakai.impl.SakaiLMSParser">
+        <property name="moduleConverter">
+            <bean class="coza.opencollab.synthesis.service.lms.sakai.converter.impl.SakaiModuleConverter" />
+        </property>
+        <property name="moduleFilter">
+            <bean class="coza.opencollab.synthesis.service.api.lms.filter.impl.AllowAllModuleFilter" />
+        </property>
+    </bean>
+         
+    <!-- Session Manager -->
+    <bean class="coza.opencollab.synthesis.service.util.impl.CachedSessionManager">
+        <property name="sessionTimeout" value="${session.timeout}" />
+        <property name="adminUsername" value="${sakai.admin.username}" />
+        <property name="adminPassword" value="${sakai.admin.password}" />
+        <property name="loginService" ref="loginServiceImpl" />
+    </bean>
+       
+    <!-- The Sakai Login Service -->
+    <bean id="loginServiceImpl" class="coza.opencollab.synthesis.sakai.client.impl.SakaiLoginServiceImpl">
+        <property name="serviceWSDL" value="${sakai.base.url}${sakai.service.wsdl.path}${sakai.service.wsdl.login}" />
+        <property name="timeout" value="30000" />
+    </bean>
+    
+    <!-- The Sakai Resource handler. This will be called by multiple handlers -->
+    <bean id="resourceHandler" class="coza.opencollab.synthesis.service.lms.sakai.impl.SakaiResourceHandler" />
+                        
+    <!-- The Sakai Event Service -->
+    <bean class="coza.opencollab.synthesis.sakai.client.impl.EventServiceImpl">
+        <property name="serviceWSDL" value="${sakai.base.url}${sakai.service.wsdl.path}${sakai.service.wsdl.event}" />
+        <property name="timeout" value="30000" />
+    </bean>    
+    
+    <!-- The Event Service -->
+    <bean class="coza.opencollab.synthesis.service.event.impl.LMSEventServiceImpl">
+        <property name="datePattern" value="yyyy-MM-dd HH:mm:ss" />
+    </bean>
+    
+    <!-- The Sakai Module Service -->
+    <bean id="moduleServiceImpl" class="coza.opencollab.synthesis.sakai.client.impl.ModuleServiceImpl">
+        <property name="serviceWSDL" value="${sakai.base.url}${sakai.service.wsdl.path}${sakai.service.wsdl.module}" />
+        <property name="timeout" value="30000" />
+    </bean>
+
+    <!-- The Sakai Announcement Service -->
+    <bean class="coza.opencollab.synthesis.sakai.client.impl.AnnouncementServiceImpl">
+        <property name="serviceWSDL" value="${sakai.base.url}${sakai.service.wsdl.path}${sakai.service.wsdl.announcement}" />
+        <property name="timeout" value="30000" />
+    </bean>
+    
+
+    <!-- The Sakai Schedule Service -->
+    <bean class="coza.opencollab.synthesis.sakai.client.impl.ScheduleServiceImpl">
+        <property name="serviceWSDL" value="${sakai.base.url}${sakai.service.wsdl.path}${sakai.service.wsdl.schedule}" />
+        <property name="timeout" value="30000" />
+    </bean>
+    
+    <!-- The Sakai Resources Service -->
+    <bean class="coza.opencollab.synthesis.sakai.client.impl.ResourcesServiceImpl">
+        <property name="serviceWSDL" value="${sakai.base.url}${sakai.service.wsdl.path}${sakai.service.wsdl.resources}" />
+        <property name="timeout" value="145000" />
+    </bean>
+
+</beans>
