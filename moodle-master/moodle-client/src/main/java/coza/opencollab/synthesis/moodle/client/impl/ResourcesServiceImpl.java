@@ -44,18 +44,8 @@ public class ResourcesServiceImpl extends AbstractServiceImpl implements Resourc
     }
 
     @Override
-    public String getResourcesForSite(String defaultFormat, String sessionId, int siteId, Date fromDate) throws Exception {
+    public String getResourcesForSite(String defaultFormat, String sessionId, int siteId, Date fromDate) {
         return callService(sessionId, SITEBLOCKCONTENTFUNCTION, "courseid=" + siteId);
-    }
-
-    @Override
-    public String getResource(String sessionId, String resourceId) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getResourceData(String sessionId, String resourceId) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

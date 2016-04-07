@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.text.MessageFormat;
 
 import org.apache.commons.io.IOUtils;
@@ -45,10 +44,10 @@ public class AbstractServiceImpl {
     
     /**
      * Constructor for testing
-     * @param timeout
-     * @param host
-     * @param baseRestStr
-     * @param appName
+     * @param timeout timeout
+     * @param host host
+     * @param baseRestStr base URL
+     * @param appName name of the application
      */
     public AbstractServiceImpl(int timeout, String host, String baseRestStr,
 			String appName) {
@@ -62,12 +61,12 @@ public class AbstractServiceImpl {
 
 
     /**
-     * Calls the webservice with the specified function to retrieve data from the moodle webservice
+     * Calls the web service with the specified function to retrieve data from the moodle web service
      *
      * @param token returned when login with admin
      * @param wsfunction web service function name
      * @param params additional parameters in url format
-     * @return
+     * @return the service response
      */
     public String callService(String token, String wsfunction, String params) {
     	

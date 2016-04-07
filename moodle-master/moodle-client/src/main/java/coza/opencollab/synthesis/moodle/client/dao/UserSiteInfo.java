@@ -193,7 +193,7 @@ public class UserSiteInfo {
 
     /**
      *
-     * @param functions The functions
+     * @param webserviceFunctions The functions
      */
     public void setFunctions(List<WebserviceFunction> webserviceFunctions) {
         this.webserviceFunctions = webserviceFunctions;
@@ -201,7 +201,7 @@ public class UserSiteInfo {
 
     /**
      *
-     * @return The downloadfiles
+     * @return The download files
      */
     public Integer getDownloadfiles() {
         return downloadfiles;
