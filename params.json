@@ -1,6 +1,6 @@
 {
   "name": "Synthesis Server",
   "tagline": "The synchronization engine and content repository repositories (LMS) implimentations",
-  "body": "### Welcome to Synthesis Server.\r\n\r\n### Synthesis\r\n\r\n\r\n### Documentation\r\n[documentation](https://help.github.com/pages)\r\n\r\n[documentation](https://help.github.com/pages)\r\n\r\n[documentation](https://help.github.com/pages)\r\n\r\n### Authors and Contributors\r\n[OpenCollab](https://www.opencollab.co.za) maintains the project under lead of @SamuelOC and @trojanc.\r\n\r\n### Support or Contact\r\n[OpenCollab](https://www.opencollab.co.za)\r\n",
+  "body": "### Welcome to Synthesis Server.\r\n\r\n### Synthesis\r\n\r\n\r\n### JavaDoc\r\n[api](http://synthesisproject.github.io/server/javadoc/service/apidocs/)\r\n\r\n[service](http://synthesisproject.github.io/server/javadoc/service/apidocs/)\r\n\r\n[shared](http://synthesisproject.github.io/server/javadoc/service/apidocs/)\r\n\r\n[sakai-client](http://synthesisproject.github.io/server/javadoc/service/apidocs/)\r\n\r\n[sakai-impl](http://synthesisproject.github.io/server/javadoc/service/apidocs/)\r\n\r\n[moodle-client](https://help.github.com/pages)\r\n\r\n[moodle-impl](https://help.github.com/pages)\r\n\r\n### Authors and Contributors\r\n[OpenCollab](https://www.opencollab.co.za) maintains the project under lead of @SamuelOC and @trojanc.\r\n\r\n### Support or Contact\r\n[OpenCollab](https://www.opencollab.co.za)\r\n",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
