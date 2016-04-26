@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/SynthesisProject/server.svg?branch=master)](https://travis-ci.org/SynthesisProject/server) [![License](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://en.wikipedia.org/wiki/Affero_General_Public_License)
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/8683/badge.svg)](https://scan.coverity.com/projects/synthesisproject-server)
 
 # Synthesis Server Synchronization Engine
 
