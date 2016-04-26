@@ -1,0 +1,4 @@
+coza.opencollab.synthesis.service.content.sakai.impl
+coza.opencollab.synthesis.service.lms.sakai.converter.impl
+coza.opencollab.synthesis.service.lms.sakai.impl
+coza.opencollab.synthesis.service.lms.sakai.util

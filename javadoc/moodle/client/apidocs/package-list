@@ -1,0 +1,5 @@
+coza.opencollab.synthesis.moodle.client
+coza.opencollab.synthesis.moodle.client.dao
+coza.opencollab.synthesis.moodle.client.dao.file
+coza.opencollab.synthesis.moodle.client.impl
+coza.opencollab.synthesis.moodle.shared
