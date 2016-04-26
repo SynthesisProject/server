@@ -1,14 +1,14 @@
-[![Build Status](https://travis-ci.org/SynthesisProject/server.svg?branch=master)](https://travis-ci.org/SynthesisProject/server)
+[![Build Status](https://travis-ci.org/SynthesisProject/server.svg?branch=master)](https://travis-ci.org/SynthesisProject/server) [![License](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://en.wikipedia.org/wiki/Affero_General_Public_License)
 
 # Synthesis Server Synchronization Engine
 
 ###[Synthesis](http://synthesisproject.github.io/server)
 
 ## Requirements
-Java JDK 7 or 8
-Maven 3.1+
-Tomcat 7+
-MySQL 5.5+
+- Java JDK 7 or 8
+- Maven 3.1+
+- Tomcat 7+
+- MySQL 5.5+
 
 ## Build
 mvn clean install
