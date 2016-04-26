@@ -27,12 +27,12 @@ Deploy synthesis-war
 - Update application.properties
 
 ## JavaDoc
-[api](http://synthesisproject.github.io/server/javadoc/service/apidocs/)
-[service](http://synthesisproject.github.io/server/javadoc/service/apidocs/)
-[shared](http://synthesisproject.github.io/server/javadoc/service/apidocs/)
-[sakai-client](http://synthesisproject.github.io/server/javadoc/service/apidocs/)
-[sakai-impl](http://synthesisproject.github.io/server/javadoc/service/apidocs/)
-[moodle-client](https://help.github.com/pages)
-[moodle-impl](https://help.github.com/pages)
+- [api](http://synthesisproject.github.io/server/javadoc/service/apidocs/)
+- [service](http://synthesisproject.github.io/server/javadoc/service/apidocs/)
+- [shared](http://synthesisproject.github.io/server/javadoc/service/apidocs/)
+- [sakai-client](http://synthesisproject.github.io/server/javadoc/service/apidocs/)
+- [sakai-impl](http://synthesisproject.github.io/server/javadoc/service/apidocs/)
+- [moodle-client](https://help.github.com/pages)
+- [moodle-impl](https://help.github.com/pages)
 
 
