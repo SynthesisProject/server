@@ -4,6 +4,9 @@
 # Synthesis Server Synchronization Engine
 
 ###[Synthesis](http://synthesisproject.github.io/server)
+Student access to continued broadband connectivity, influenced by a number of external factors, plays a major role in the effective delivery of learning content. In the light of this, OPENCOLLAB has developed a multiple device platform (laptop, tablet, mobile phone, USB , etc.) that can present a variety of content and functionality to students in an on/offline learning content management solution, thus allowing them continued access to resources wherever they are, affording a much richer and more seamless teaching and learning experience. Synthesis currently includes integrates with Sakai and Moodle. The Synthesis server project was developed to accommodate easy implementation of any other content source.
+
+The Synthesis mobile [mobile](https://github.com/SynthesisProject/mobile) is the only openly available client tool at the moment. The LMS tools that it supports are Calendar, Resources(files) and Announcements.
 
 ## Requirements
 - Java JDK 7 or 8
