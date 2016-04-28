@@ -1,12 +1,10 @@
 [![Build Status](https://travis-ci.org/SynthesisProject/server.svg?branch=master)](https://travis-ci.org/SynthesisProject/server) [![License](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://en.wikipedia.org/wiki/Affero_General_Public_License)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/8683/badge.svg)](https://scan.coverity.com/projects/synthesisproject-server)
 
-# Synthesis Server Synchronization Engine
+# Synthesis Synchronization Engine
+##### We have just moved this project from closed source to AGPLv3, please let us know if you any issues with missing or inaccurate documentation.
 
 ###[Synthesis](http://synthesisproject.github.io/server)
-Student access to continued broadband connectivity, influenced by a number of external factors, plays a major role in the effective delivery of learning content. In the light of this, OPENCOLLAB has developed a multiple device platform (laptop, tablet, mobile phone, USB , etc.) that can present a variety of content and functionality to students in an on/offline learning content management solution, thus allowing them continued access to resources wherever they are, affording a much richer and more seamless teaching and learning experience. Synthesis currently includes integrates with Sakai and Moodle. The Synthesis server project was developed to accommodate easy implementation of any other content source.
-
-The Synthesis mobile [mobile](https://github.com/SynthesisProject/mobile) is the only openly available client tool at the moment. The LMS tools that it supports are Calendar, Resources(files) and Announcements.
 
 ## Requirements
 - Java JDK 7 or 8
