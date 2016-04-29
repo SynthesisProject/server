@@ -4,7 +4,7 @@
     <parent>
         <groupId>coza.opencollab.synthesis</groupId>
         <artifactId>moodle-master</artifactId>
-        <version>1.0.5-SNAPSHOT</version>
+        <version>1.0.5</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>moodle-impl</artifactId>

@@ -3,7 +3,7 @@
     <parent>
         <groupId>coza.opencollab.synthesis</groupId>
         <artifactId>sakai-master</artifactId>
-        <version>1.0.5-SNAPSHOT</version>
+        <version>1.0.5</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>sakai-jws</artifactId>
