@@ -55,12 +55,6 @@ public class AndroidSendService implements SendService{
 
 	/** Maximum number of registration IDs that can be sent in a batch. */
 	public static final int BATCH_SIZE = 1000;
-	
-	/** Amount to backoff before re-attempting. */
-	private static final int BACKOFF = 1000 * 60;
-	
-	/** Maximum number of retry attempts before a message is  marked as failed. */
-	private static final int MAX_RETRIES = 3;
 
 	/**  Semaphore used to limit the max allowed number of active connections. */
 	private final Semaphore androidConnectionLimit = new Semaphore(10, true);

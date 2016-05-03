@@ -51,12 +51,6 @@ public class iOSSendService implements SendService {
 	/** The Constant DEVICE_ID_LENGTH. */
 	private static final int DEVICE_ID_LENGTH = 32;
 	
-	/** Amount to backoff before re-attempting. */
-	private static final int BACKOFF = 1000 * 60;
-	
-	/** Maximum number of retry attempts before a message is  marked as failed. */
-	private static final int MAX_RETRIES = 3;
-	
 	/** The Constant BATCH_SIZE. */
 	private static final int BATCH_SIZE = 1;
 	

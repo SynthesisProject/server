@@ -40,11 +40,12 @@
 	<!-- Sender service implementations -->
 	<bean id="androidSendService" class="coza.opencollab.synthesis.push.service.send.AndroidSendService" />
 	<bean id="iOSSendService" class="coza.opencollab.synthesis.push.service.send.iOSSendService"/>
-	
+	<bean id="windowsSendService" class="coza.opencollab.synthesis.push.service.send.WindowsSendService"/>
 	
 	<util:map id="pushSenders" map-class="java.util.HashMap">
         <entry key="Android" value-ref="androidSendService"/>
         <entry key="iOS" value-ref="iOSSendService"/>
+        <entry key="windows" value-ref="windowsSendService"/>
     </util:map>
 
 	<bean id="toolChangePushJob" class="coza.opencollab.synthesis.push.service.ToolChangesPushJob" scope="prototype">

@@ -10,6 +10,12 @@ import coza.opencollab.synthesis.push.dbo.PushDeviceTuple;
  * 
  */
 public interface SendService {
+	
+	/** Amount to backoff before re-attempting. */
+	public static final int BACKOFF = 60000;
+	
+	/** Maximum number of retry attempts before a message is  marked as failed. */
+	public static final int MAX_RETRIES = 3;
 
 	/**
 	 * Send push.
