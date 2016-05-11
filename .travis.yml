@@ -16,8 +16,8 @@ addons:
       description: "Build submitted via Travis CI"
     notification_email: samuel@opencollab.co.za
     build_command_prepend: "mvn clean"
-    build_command:   "mvn -DskipTests=true compile"
+    build_command:   "mvn -DskipTests compile"
     branch_pattern: coverity_scan
 
 after_success:
-  - mvn clean deploy --settings settings.xml -DskipTests=true -B
+  - mvn clean deploy --settings settings.xml -DskipTests -B
